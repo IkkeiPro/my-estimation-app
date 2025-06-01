@@ -1011,20 +1011,34 @@
             const form = document.getElementById('user-form');
             const formData = new FormData(form);
 
-            // 見積り情報も含める
+            // 見積り情報を取得
             const estimateInfo = {
                 plan: selectedPlan,
                 basePrice: basePlans[selectedPlan],
                 total: calculateTotalPrice(),
                 selections: getSelectedOptions()
             };
-            formData.append('estimate', JSON.stringify(estimateInfo));
 
-            // 件名を付与（オプション）
+            // JSONではなく見やすいテキストに整形
+            let estimateText = `■プラン: ${estimateInfo.plan}
+        ■ベース価格: ${estimateInfo.basePrice.toLocaleString()}円
+        ■合計金額: ${estimateInfo.total.toLocaleString()}円
+
+        【選択オプション】
+        `;
+
+            for (const [key, value] of Object.entries(estimateInfo.selections)) {
+                estimateText += `・${key}: ${value.text}\n`;
+            }
+
+            // メール本文に追記
+            formData.append('estimate', estimateText);
+
+            // 件名も（オプション）
             formData.append('_subject', '【見積り依頼】注文住宅見積りシステム');
 
-            // 管理者宛に送信
-            fetch('https://formsubmit.co/ajax/ae4327d9d476f64e290c7be33626e567', {
+            // FormSubmitのajaxエンドポイント
+            fetch('https://formsubmit.co/ajax/ikke.gosh@gmail.com', {
                 method: 'POST',
                 body: formData
             })
@@ -1046,5 +1060,6 @@
                 alert('送信に失敗しました。もう一度お試しください。');
             });
         }
+
     </script>
 </body>
