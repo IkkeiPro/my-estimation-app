@@ -87,19 +87,21 @@
 
         .plan-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: 1fr;
             gap: 20px;
             margin: 20px 0;
         }
 
         .plan-card {
-            border: 3px solid #f8f6f2;
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            padding: 15px;
+            border-radius: 10px;
             background-color: #ffffff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            max-height: 90vh;  /* 画面の90%以内に収める */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
         }
 
         .plan-card:hover {
@@ -107,6 +109,31 @@
             transform: translateY(-5px);
             box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
+        #selected-plan-card .plan-card:hover {
+            border-color: inherit;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .plan-floor {
+            margin-top: 20px;
+        }
+
+        .plan-floor-img {
+            max-height: 150px;   /* 画像を小さくする */
+            object-fit: cover;
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+        /* Step5だけ画像をフル表示 */
+        #selected-plan-card .plan-floor-img {
+            max-height: none;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
 
         .plan-card.selected {
             border-color: #cc6633;
@@ -126,10 +153,19 @@
             color: #cc6633;
         }
 
-        .plan-card h3 {
+        .plan-title {
+            font-size: 1.8em;      /* 大きめ */
+            font-weight: bold;
             color: #333333;
-            margin-bottom: 10px;
-            font-size: 1.4em;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+
+        .plan-card h3:not(.plan-title) {
+            font-size: 1.2em;      /* 小さめ */
+            margin-bottom: 8px;
+            color: #333333;
         }
 
         .plan-price {
@@ -137,6 +173,7 @@
             font-weight: bold;
             color: #cc6633;
             margin-bottom: 10px;
+            text-align: center;
         }
 
         .options-container {
@@ -339,16 +376,50 @@
             <h2>ベースプランをお選びください</h2>
             <div class="plan-grid">
                 <div class="plan-card" data-plan="A">
-                    <div class="plan-image">🏡</div>
-                    <h3>プランA - スタンダード</h3>
-                    <div class="plan-price">2,000万円</div>
-                    <p>シンプルで機能的な住まい。必要な設備を厳選したコストパフォーマンスに優れたプランです。</p>
+                    <h3 class="plan-title">SMALLHAUS</h3>
+                    <div class="plan-description">
+                        <h3>建物概要</h3>
+                        <p>
+                            木造　2階建（1LDK）<br>
+                            延床面積　62.52㎡（18.91坪）<br>
+                            建築面積　49.69㎡
+                        </p>
+                    </div>
+                    <div class="plan-price">ベース価格: 2,000万円（オプション別途）</div>  <!-- ← ここに価格 -->
+                    <div class="plan-floor">
+                        <h3>1階</h3>
+                        <img src="./images/image1.png" alt="1階の写真" class="plan-floor-img">
+                        <p>1階　床面積　43.06㎡（13坪）</p>
+                    </div>
+                    <div class="plan-floor">
+                        <h3>2階</h3>
+                        <img src="./images/image2.png" alt="2階の写真" class="plan-floor-img">
+                        <p>2階　床面積　19.46㎡（5.88坪）</p>
+                    </div>
                 </div>
+
+                <!-- プランBも同様に作成 -->
                 <div class="plan-card" data-plan="B">
-                    <div class="plan-image">🏘️</div>
-                    <h3>プランB - プレミアム</h3>
-                    <div class="plan-price">2,500万円</div>
-                    <p>上質な素材と充実した設備で、ワンランク上の住み心地を実現するプランです。</p>
+                    <h3 class="plan-title">LARGEHAUS</h3>
+                    <div class="plan-description">
+                        <h3>建物概要</h3>
+                        <p>
+                            木造　2階建（2LDK）<br>
+                            延床面積　75.00㎡（22.68坪）<br>
+                            建築面積　55.00㎡
+                        </p>
+                    </div>
+                    <div class="plan-price">ベース価格: 4,500万円（オプション別途）</div>  <!-- ← ここに価格 -->
+                    <div class="plan-floor">
+                        <h3>1階</h3>
+                        <img src="./images/image3.png" alt="1階の写真" class="plan-floor-img">
+                        <p>1階　床面積　45.00㎡（13.6坪）</p>
+                    </div>
+                    <div class="plan-floor">
+                        <h3>2階</h3>
+                        <img src="./images/image4.png" alt="2階の写真" class="plan-floor-img">
+                        <p>2階　床面積　30.00㎡（9.08坪）</p>
+                    </div>
                 </div>
             </div>
             <div class="button-container">
@@ -362,53 +433,31 @@
             <div class="options-container">
                 <div class="option-group">
                     <h3>外壁</h3>
-                    <select class="option-select" id="exterior-wall">
-                        <option value="mortar">モルタル+ジョリパッと吹付</option>
-                        <option value="siding">KMEW サイディング</option>
-                    </select>
+                    <select class="option-select" id="exterior-wall"></select>
                 </div>
                 <div class="option-group">
                     <h3>屋根</h3>
-                    <select class="option-select" id="roof">
-                        <option value="galvalume">ガルバリウム鋼板 立平葺</option>
-                    </select>
+                    <select class="option-select" id="roof"></select>
                 </div>
                 <div class="option-group">
                     <h3>軒裏</h3>
-                    <select class="option-select" id="eaves">
-                        <option value="asnon">アスノン AEP塗装</option>
-                    </select>
+                    <select class="option-select" id="eaves"></select>
                 </div>
                 <div class="option-group">
                     <h3>雨どい</h3>
-                    <select class="option-select" id="gutter">
-                        <option value="tanita">TANITA HACO6号</option>
-                        <option value="panasonic">Panasonic グランスケア</option>
-                    </select>
+                    <select class="option-select" id="gutter"></select>
                 </div>
                 <div class="option-group">
                     <h3>サッシ</h3>
-                    <select class="option-select" id="window">
-                        <option value="episode">YKK エピソードII NEO</option>
-                        <option value="apw330">YKK APW330</option>
-                    </select>
+                    <select class="option-select" id="window"></select>
                 </div>
                 <div class="option-group">
                     <h3>玄関ドア</h3>
-                    <select class="option-select" id="entrance-door">
-                        <option value="lattice">IDEA オリジナル格子戸(引違)</option>
-                        <option value="panel">IDEA オリジナル羽目板扉(片開)</option>
-                        <option value="yuda" data-price="100000">ユダ木工 断熱木製ドア(片開) +10万円</option>
-                        <option value="ykk-smart" data-price="100000">YKK スマート断熱ドア ヴェナート(片開) +10万円</option>
-                    </select>
+                    <select class="option-select" id="entrance-door"></select>
                 </div>
                 <div class="option-group">
                     <h3>ウッドデッキ</h3>
-                    <select class="option-select" id="deck">
-                        <option value="wood">木製ウッドデッキ(ウリン)</option>
-                        <option value="resin" data-price="100000">木樹脂デッキ LIXIL 樹ら楽ステージ +10万円</option>
-                        <option value="none">なし</option>
-                    </select>
+                    <select class="option-select" id="deck"></select>
                 </div>
             </div>
             <div class="button-container">
@@ -423,58 +472,27 @@
             <div class="options-container">
                 <div class="option-group">
                     <h3>LDKと廊下の床</h3>
-                    <select class="option-select" id="ldk-floor">
-                        <option value="cedar-knotted">杉無垢フローリング(節あり)15mm</option>
-                        <option value="cedar-clear" data-price="1000000">杉無垢フローリング(節なし)15mm +100万円</option>
-                        <option value="hinoki-knotted">桧無垢フローリング(節あり)15mm</option>
-                        <option value="hinoki-clear" data-price="1000000">桧無垢フローリング(節なし)15mm +100万円</option>
-                    </select>
+                    <select class="option-select" id="ldk-floor"></select>
                 </div>
                 <div class="option-group">
                     <h3>玄関とSICの床</h3>
-                    <select class="option-select" id="entrance-floor">
-                        <option value="mortar">モルタル こて押さえ</option>
-                        <option value="gravel">砂利 洗い出し</option>
-                        <option value="tile">300角タイル仕上げ LIXIL アレス</option>
-                    </select>
+                    <select class="option-select" id="entrance-floor"></select>
                 </div>
                 <div class="option-group">
                     <h3>トイレと洗面所の床</h3>
-                    <select class="option-select" id="toilet-floor">
-                        <option value="cushion">クッションフロア</option>
-                        <option value="linoleum" data-price="100000">リノリウム +10万円</option>
-                        <option value="cedar-knotted">杉無垢フローリング(節あり)15mm</option>
-                        <option value="cedar-clear" data-price="100000">杉無垢フローリング(節なし)15mm +10万円</option>
-                        <option value="hinoki-knotted">桧無垢フローリング(節あり)15mm</option>
-                        <option value="hinoki-clear" data-price="100000">桧無垢フローリング(節なし)15mm +10万円</option>
-                    </select>
+                    <select class="option-select" id="toilet-floor"></select>
                 </div>
                 <div class="option-group">
                     <h3>ロフトの床</h3>
-                    <select class="option-select" id="loft-floor">
-                        <option value="cedar-knotted">杉無垢フローリング(節あり)15mm</option>
-                        <option value="cedar-clear" data-price="300000">杉無垢フローリング(節なし)15mm +30万円</option>
-                        <option value="hinoki-knotted">桧無垢フローリング(節あり)15mm</option>
-                        <option value="hinoki-clear" data-price="300000">桧無垢フローリング(節なし)15mm +30万円</option>
-                        <option value="tatami">畳(フチなし)</option>
-                    </select>
+                    <select class="option-select" id="loft-floor"></select>
                 </div>
                 <div class="option-group">
                     <h3>壁と天井の仕上</h3>
-                    <select class="option-select" id="wall-ceiling">
-                        <option value="vinyl">ビニルクロス(AA)</option>
-                        <option value="diatomite-cloth">珪藻土クロス</option>
-                        <option value="diatomite">珪藻土(左官仕上)</option>
-                        <option value="feather-feel">フェザーフィール</option>
-                    </select>
+                    <select class="option-select" id="wall-ceiling"></select>
                 </div>
                 <div class="option-group">
                     <h3>室内建具</h3>
-                    <select class="option-select" id="interior-door">
-                        <option value="idea">イデア仕様(シナフラッシュ)</option>
-                        <option value="panasonic">Panasonic ベリティス</option>
-                        <option value="kamiya">kamiya フルハイトドア</option>
-                    </select>
+                    <select class="option-select" id="interior-door"></select>
                 </div>
             </div>
             <div class="button-container">
@@ -489,62 +507,35 @@
             <div class="options-container">
                 <div class="option-group">
                     <h3>キッチン</h3>
-                    <select class="option-select" id="kitchen">
-                        <option value="idea">IDEAオリジナル</option>
-                        <option value="graftect" data-price="300000">GRAFTECT +30万円</option>
-                        <option value="cleanup" data-price="100000">Cleanup STEDIA +10万円</option>
-                    </select>
+                    <select class="option-select" id="kitchen"></select>
                 </div>
                 <div class="option-group">
                     <h3>コンロ</h3>
-                    <select class="option-select" id="stove">
-                        <option value="hitachi">HITACHI IHクッキングヒーター HT-N9STF(S)</option>
-                        <option value="panasonic">Panasonic IHクッキングヒーター KZ-CA16TK</option>
-                        <option value="rinnai">リンナイ ガスコンロ ES31W41T4RVW</option>
-                    </select>
+                    <select class="option-select" id="stove"></select>
                 </div>
                 <div class="option-group">
                     <h3>ユニットバス</h3>
-                    <select class="option-select" id="bath">
-                        <option value="toto-sazana">TOTO サザナ S-TYPE 1616</option>
-                    </select>
+                    <select class="option-select" id="bath"></select>
                 </div>
                 <div class="option-group">
                     <h3>洗面台</h3>
-                    <select class="option-select" id="washstand">
-                        <option value="toto-sakua-3">TOTO サクア W750 三面鏡</option>
-                        <option value="toto-sakua-1">TOTO サクア W750 一面鏡</option>
-                        <option value="toto-octave">TOTO オクターブ W750 三面鏡</option>
-                        <option value="panasonic-cline">Panasonic C-LINE W750 三面鏡</option>
-                    </select>
+                    <select class="option-select" id="washstand"></select>
                 </div>
                 <div class="option-group">
                     <h3>トイレ</h3>
-                    <select class="option-select" id="toilet">
-                        <option value="toto-restpal">TOTO レストパルF+アプリコットF1A</option>
-                        <option value="toto-purerest-ex">TOTO ピュアレストEX+アプリコットF1A</option>
-                        <option value="toto-purerest-qr">TOTO ピュアレストQR+アプリコットF1A</option>
-                    </select>
+                    <select class="option-select" id="toilet"></select>
                 </div>
                 <div class="option-group">
                     <h3>手洗い</h3>
-                    <select class="option-select" id="handwash">
-                        <option value="lixil">LIXIL サティス洗面器 YL-A555 (シングルレバー単水栓)</option>
-                        <option value="kakudai">カクダイ 493-266M+721-211</option>
-                    </select>
+                    <select class="option-select" id="handwash"></select>
                 </div>
                 <div class="option-group">
                     <h3>給湯器</h3>
-                    <select class="option-select" id="water-heater">
-                        <option value="noritz">ノーリツ ガス給湯器20号 エコジョーズ付</option>
-                    </select>
+                    <select class="option-select" id="water-heater"></select>
                 </div>
                 <div class="option-group">
                     <h3>太陽光発電</h3>
-                    <select class="option-select" id="solar">
-                        <option value="none">なし</option>
-                        <option value="yes" data-price="3000000">あり +300万円</option>
-                    </select>
+                    <select class="option-select" id="solar"></select>
                 </div>
             </div>
             <div class="button-container">
@@ -568,6 +559,7 @@
             <p style="text-align: center; margin: 20px 0; color: #666;">
                 ※ この見積りは概算です。正式なお見積りは詳細打ち合わせ後に作成いたします。
             </p>
+            <div id="selected-plan-card" class="plan-grid" style="margin-bottom: 20px;"></div>
             <div class="button-container">
                 <button class="btn btn-secondary" onclick="prevStep()">戻る</button>
                 <button class="btn btn-primary" onclick="nextStep()">お申込みへ進む</button>
@@ -627,10 +619,118 @@
         let selectedPlan = '';
         let selections = {};
         
-        // ベースプラン価格（万円単位）
+        // ベースプラン価格
         const basePlans = {
             'A': 20000000,
-            'B': 25000000
+            'B': 45000000
+        };
+        const optionData = {
+            // 🔹 外装仕様
+            'exterior-wall': [
+                { value: 'mortar', text: 'モルタル+ジョリパット吹付' },
+                { value: 'siding', text: 'KMEW サイディング' }
+            ],
+            'roof': [
+                { value: 'galvalume', text: 'ガルバリウム鋼板 立平葺' }
+            ],
+            'eaves': [
+                { value: 'asnon', text: 'アスノン AEP塗装' }
+            ],
+            'gutter': [
+                { value: 'tanita', text: 'TANITA HACO6号' },
+                { value: 'panasonic', text: 'Panasonic グランスケア' }
+            ],
+            'window': [
+                { value: 'episode', text: 'YKK エピソードII NEO' },
+                { value: 'apw330', text: 'YKK APW330' }
+            ],
+            'entrance-door': [
+                { value: 'lattice', text: 'IDEA オリジナル格子戸(引違)' },
+                { value: 'panel', text: 'IDEA オリジナル羽目板扉(片開)' },
+                { value: 'yuda', text: 'ユダ木工 断熱木製ドア(片開)', price: 100000 },
+                { value: 'ykk-smart', text: 'YKK スマート断熱ドア ヴェナート(片開)', price: 100000 }
+            ],
+            'deck': [
+                { value: 'wood', text: '木製ウッドデッキ(ウリン)' },
+                { value: 'resin', text: '木樹脂デッキ LIXIL 樹ら楽ステージ', price: 100000 },
+                { value: 'none', text: 'なし' }
+            ],
+
+            // 🔹 内装仕様
+            'ldk-floor': [
+                { value: 'cedar-knotted', text: '杉無垢フローリング(節あり)15mm' },
+                { value: 'cedar-clear', text: '杉無垢フローリング(節なし)15mm', price: 1000000 },
+                { value: 'hinoki-knotted', text: '桧無垢フローリング(節あり)15mm' },
+                { value: 'hinoki-clear', text: '桧無垢フローリング(節なし)15mm', price: 1000000 }
+            ],
+            'entrance-floor': [
+                { value: 'mortar', text: 'モルタル こて押さえ' },
+                { value: 'gravel', text: '砂利 洗い出し' },
+                { value: 'tile', text: '300角タイル仕上げ LIXIL アレス' }
+            ],
+            'toilet-floor': [
+                { value: 'cushion', text: 'クッションフロア' },
+                { value: 'linoleum', text: 'リノリウム', price: 100000 },
+                { value: 'cedar-knotted', text: '杉無垢フローリング(節あり)15mm' },
+                { value: 'cedar-clear', text: '杉無垢フローリング(節なし)15mm', price: 100000 },
+                { value: 'hinoki-knotted', text: '桧無垢フローリング(節あり)15mm' },
+                { value: 'hinoki-clear', text: '桧無垢フローリング(節なし)15mm', price: 100000 }
+            ],
+            'loft-floor': [
+                { value: 'cedar-knotted', text: '杉無垢フローリング(節あり)15mm' },
+                { value: 'cedar-clear', text: '杉無垢フローリング(節なし)15mm', price: 300000 },
+                { value: 'hinoki-knotted', text: '桧無垢フローリング(節あり)15mm' },
+                { value: 'hinoki-clear', text: '桧無垢フローリング(節なし)15mm', price: 300000 },
+                { value: 'tatami', text: '畳(フチなし)' }
+            ],
+            'wall-ceiling': [
+                { value: 'vinyl', text: 'ビニルクロス(AA)' },
+                { value: 'diatomite-cloth', text: '珪藻土クロス' },
+                { value: 'diatomite', text: '珪藻土(左官仕上)' },
+                { value: 'feather-feel', text: 'フェザーフィール' }
+            ],
+            'interior-door': [
+                { value: 'idea', text: 'イデア仕様(シナフラッシュ)' },
+                { value: 'panasonic', text: 'Panasonic ベリティス' },
+                { value: 'kamiya', text: 'kamiya フルハイトドア' }
+            ],
+
+            // 🔹 設備仕様
+            'kitchen': [
+                { value: 'idea', text: 'IDEAオリジナル' },
+                { value: 'graftect', text: 'GRAFTECT', price: 300000 },
+                { value: 'cleanup', text: 'Cleanup STEDIA', price: 100000 }
+            ],
+            'stove': [
+                { value: 'hitachi', text: 'HITACHI IHクッキングヒーター HT-N9STF(S)' },
+                { value: 'panasonic', text: 'Panasonic IHクッキングヒーター KZ-CA16TK' },
+                { value: 'rinnai', text: 'リンナイ ガスコンロ ES31W41T4RVW' }
+            ],
+            'bath': [
+                { value: 'toto-sazana', text: 'TOTO サザナ S-TYPE 1616' }
+            ],
+            'washstand': [
+                { value: 'toto-sakua-3', text: 'TOTO サクア W750 三面鏡' },
+                { value: 'toto-sakua-1', text: 'TOTO サクア W750 一面鏡' },
+                { value: 'toto-octave', text: 'TOTO オクターブ W750 三面鏡' },
+                { value: 'panasonic-cline', text: 'Panasonic C-LINE W750 三面鏡' }
+            ],
+            'toilet': [
+                { value: 'toto-restpal', text: 'TOTO レストパルF+アプリコットF1A' },
+                { value: 'toto-purerest-ex', text: 'TOTO ピュアレストEX+アプリコットF1A' },
+                { value: 'toto-purerest-qr', text: 'TOTO ピュアレストQR+アプリコットF1A' }
+            ],
+            'handwash': [
+                { value: 'lixil', text: 'LIXIL サティス洗面器 YL-A555 (シングルレバー単水栓)' },
+                { value: 'kakudai', text: 'カクダイ 493-266M+721-211' }
+            ],
+            'water-heater': [
+                { value: 'noritz', text: 'ノーリツ ガス給湯器20号 エコジョーズ付' }
+            ],
+            'solar': [
+                { value: 'none', text: 'なし' },
+                { value: 'yes', text: 'あり', price: 3000000 }
+            ]
         };
 
         // 初期化
@@ -655,6 +755,32 @@
                 });
             });
         }
+
+        // オプションの動的埋め込み
+        document.addEventListener('DOMContentLoaded', function() {
+            setupPlanSelection();
+            setupFormValidation();
+            populateOptions();
+        });
+
+        function populateOptions() {
+            Object.keys(optionData).forEach(selectId => {
+                const select = document.getElementById(selectId);
+                if (!select) return;
+
+                optionData[selectId].forEach(option => {
+                    const opt = document.createElement('option');
+                    opt.value = option.value;
+                    opt.textContent = option.text;
+                    if (option.price) {
+                        opt.dataset.price = option.price;
+                        opt.textContent += ` +${option.price.toLocaleString()}円`;
+                    }
+                    select.appendChild(opt);
+                });
+            });
+        }
+
 
         // フォームバリデーション設定
         function setupFormValidation() {
@@ -703,6 +829,8 @@
                 document.getElementById(`screen-${currentStep}`).classList.add('active');
                 document.getElementById(`step-${currentStep}`).classList.add('active');
             }
+            // 画面の一番上にスクロール
+            window.scrollTo(0, 0);
         }
 
         // 前のステップに戻る
@@ -724,14 +852,14 @@
         function calculateEstimate() {
             let total = basePlans[selectedPlan];
             let details = [];
-            
+
             // ベースプラン
             details.push({
                 name: `プラン${selectedPlan}`,
                 price: basePlans[selectedPlan]
             });
-            
-            // 各仕様のオプション価格を計算
+
+            // 各オプション
             const selects = document.querySelectorAll('.option-select');
             selects.forEach(select => {
                 const selectedOption = select.options[select.selectedIndex];
@@ -744,11 +872,11 @@
                     total += price;
                 }
             });
-            
-            // 見積り詳細を表示
+
+            // 明細
             const detailsContainer = document.getElementById('estimate-details');
             detailsContainer.innerHTML = '';
-            
+
             details.forEach(item => {
                 const div = document.createElement('div');
                 div.className = 'estimate-item';
@@ -758,11 +886,24 @@
                 `;
                 detailsContainer.appendChild(div);
             });
-            
-            // 合計金額を表示
+
+            // 合計
             document.getElementById('estimate-total').textContent = 
                 `合計: ${total.toLocaleString()}円（税込）`;
+
+            // 🔥 選択プラン表示
+            const selectedCard = document.querySelector(`.plan-card[data-plan="${selectedPlan}"]`);
+            const planCardContainer = document.getElementById('selected-plan-card');
+            planCardContainer.innerHTML = ''; // 初期化
+
+            if (selectedCard) {
+                const clonedCard = selectedCard.cloneNode(true);
+                clonedCard.style.maxHeight = 'none'; // 画面制限解除
+                clonedCard.classList.remove('selected');
+                planCardContainer.appendChild(clonedCard);
+            }
         }
+
 
         // フォーム送信
         function submitForm() {
@@ -861,25 +1002,49 @@
         }
 
         // 実際のFormSubmit送信用の関数（参考）
-        // function submitToFormSubmit(formData) {
-        //     const endpoint = 'https://formsubmit.co/your-email@example.com';
-        //     
-        //     fetch(endpoint, {
-        //         method: 'POST',
-        //         body: formData
-        //     })
-        //     .then(response => {
-        //         if (response.ok) {
-        //             // 完了画面へ遷移
-        //             nextStep();
-        //         } else {
-        //             alert('送信に失敗しました。もう一度お試しください。');
-        //         }
-        //     })
-        //     .catch(error => {
-        //         console.error('Error:', error);
-        //         alert('送信に失敗しました。もう一度お試しください。');
-        //     });
-        // }
+        function submitForm() {
+            if (!validateForm()) {
+                alert('必須項目を入力してください。');
+                return;
+            }
+
+            const form = document.getElementById('user-form');
+            const formData = new FormData(form);
+
+            // 見積り情報も含める
+            const estimateInfo = {
+                plan: selectedPlan,
+                basePrice: basePlans[selectedPlan],
+                total: calculateTotalPrice(),
+                selections: getSelectedOptions()
+            };
+            formData.append('estimate', JSON.stringify(estimateInfo));
+
+            // 件名を付与（オプション）
+            formData.append('_subject', '【見積り依頼】注文住宅見積りシステム');
+
+            // 管理者宛に送信
+            fetch('https://formsubmit.co/ajax/ae4327d9d476f64e290c7be33626e567', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    // 完了画面へ遷移
+                    document.getElementById(`screen-${currentStep}`).classList.remove('active');
+                    document.getElementById(`step-${currentStep}`).classList.remove('active');
+                    document.getElementById(`step-${currentStep}`).classList.add('completed');
+
+                    currentStep = 7;
+                    document.getElementById(`screen-${currentStep}`).classList.add('active');
+                } else {
+                    alert('送信に失敗しました。もう一度お試しください。');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('送信に失敗しました。もう一度お試しください。');
+            });
+        }
     </script>
 </body>
